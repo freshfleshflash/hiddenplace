@@ -28,12 +28,10 @@ $(window).scroll(function() {
 
 function positionListener() {
     listener.setPosition(listenerX, listenerY, 300);
-    console.log("position_listener");
 }
 
 function positionPanner() {
     panner.setPosition(radioX, radioY, 295);
-    console.log("position_panner");
 }
 
 function getData() {
@@ -64,3 +62,25 @@ function getData() {
 
     request.send();
 }
+
+var count = 5;
+makeRandomInsideDiv($('body'));
+
+function makeRandomInsideDiv(outer) {
+    console.log(count);
+    if(count == 0) {
+        return;
+    }
+
+    var limitW = outer.width();
+    var limitH = outer.height();
+    var randomDiv = document.createElement('div');
+    $(randomDiv).css('left', Math.random() * limitW).css('top', Math.random() * limitH)
+    outer.append(randomDiv);
+    count--;
+
+    outer = $(randomDiv);
+    console.log(outer);
+
+    makeRandomInsideDiv(outer);
+};
