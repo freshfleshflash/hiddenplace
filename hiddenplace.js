@@ -5,19 +5,34 @@ var panner = audioCtx.createPanner();
 var listener = audioCtx.listener;
 var source;
 
-var play = $('.play')[0];
+var listenerX = $(window).width() / 2;
+var listenerY = $(window).height() / 2;
+var radioX = $('#radio').offset().left;
+var radioY = $(window).height() / 2;
 
-var w = $(document).width();
-var h = $(document).height();
-console.log(w, h);
+$('#play').click(function() {
+    getData();
+    source.start(0);
+    console.log("play");
+});
 
-var x = w / 2;
-var y = h / 2;
+$('#stop').click(function() {
+    source.stop();
+    console.log("stop");
+});
 
-listener.setPosition(x, y, 300);
+$(window).scroll(function() {
+    listenerX = $(window).scrollLeft();
+    positionListener();
+});
+
+function positionListener() {
+    listener.setPosition(listenerX, listenerY, 300);
+    console.log("position_listener");
+}
 
 function positionPanner() {
-    panner.setPosition(x, y, 295);
+    panner.setPosition(radioX, radioY, 295);
     console.log("position_panner");
 }
 
@@ -39,6 +54,7 @@ function getData() {
                 source.connect(panner);
                 panner.connect(audioCtx.destination);
                 positionPanner();
+                positionListener();
                 source.loop = true;
             },
 
@@ -47,25 +63,4 @@ function getData() {
     }
 
     request.send();
-}
-
-$('.play').click(function() {
-    getData();
-    source.start(0);
-    console.log("play");
-});
-
-$('.stop').click(function() {
-    source.stop();
-    console.log("stop");
-});
-
-$(document).mousemove(function(event) {
-    $('.mousePos').text("mouseX: " + event.pageX);
-    x = math_map(event.pageX, 0, w, w/2-50, w/2+50);
-    positionPanner();
-});
-
-function math_map(value, input_min, input_max, output_min, output_max) {
-    return output_min + (output_max - output_min) * (value - input_min) / (input_max - input_min);
 }
