@@ -32,6 +32,10 @@ function positionListener() {
 
 function positionPanner() {
     panner.setPosition(radioX, radioY, 295);
+    var realRadio = $('div');
+    realRadio.css('left', $('#radio').offset().left + $(window).width()/2).css('top', $('#radio').offset().top).css('width', $('#radio').width()).css('height', $('#radio').height());
+    realRadio.attr('id', 'realRadio');
+    $('body').append(realRadio);
 }
 
 function getData() {
@@ -66,21 +70,21 @@ function getData() {
 var count = 5;
 makeRandomInsideDiv($('body'));
 
-function makeRandomInsideDiv(outer) {
+function makeRandomInsideDiv(jOuter) {
     console.log(count);
     if(count == 0) {
         return;
     }
 
-    var limitW = outer.width();
-    var limitH = outer.height();
+    var limitW = jOuter.width();
+    var limitH = jOuter.height();
     var randomDiv = document.createElement('div');
-    $(randomDiv).css('left', Math.random() * limitW).css('top', Math.random() * limitH)
-    outer.append(randomDiv);
+    $(randomDiv).css('left', Math.random() * limitW).css('top', Math.random() * limitH);
+    jOuter.append(randomDiv);
     count--;
 
-    outer = $(randomDiv);
-    console.log(outer);
+    jOuter = $(randomDiv);
+    console.log(jOuter);
 
-    makeRandomInsideDiv(outer);
+    makeRandomInsideDiv(jOuter);
 };
